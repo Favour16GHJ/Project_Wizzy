@@ -3,9 +3,9 @@
 // Project Requirements:
 // Quiz Data: Hardcode an array of 5 questions. Each question object should contain: Done
 // id
-// questionText
-// answerOptions (an array of strings)
-// correctAnswer (the index of the correct option)
+// question
+// options (an array of strings)
+// answer (the index of the correct option)
 
 // State Management (useState): Done
 // Track the current question index.
@@ -13,7 +13,7 @@
 // Track whether the quiz is finished (a boolean).
 
 // Rendering Lists (map & key):
-// Use map to display the answerOptions for the current question as a list of buttons.
+// Use map to display the options for the current question as a list of buttons.
 
 // Events:
 // Add an onClick event handler to each answer button.
@@ -24,44 +24,44 @@
 // Quiz View: (If quizFinished is false, display the current question and answer buttons).
 // Results View: (If quizFinished is true, display the final score and a "Restart Quiz" button).
 // useEffect (Bonus):
-// Use useEffect with the currentQuestionIndex as a dependency to log the question number to the console every time a new question is rendered.
+// Use useEffect with the questionIndex as a dependency to log the question number to the console every time a new question is rendered.
 
 import { useState } from 'react'
-let questionData = [];
+let questionList = [];
 function ProjectWizzy() {
-    questionData = [
+    questionList = [
         {
             id: 1,
-            questionText: "What is the capital of France?",
-            answerOptions: ["Berlin", "Madrid", "Paris", "Rome"],
-            correctAnswer: 2
+            question: "What is the capital of France?",
+            options: ["Berlin", "Madrid", "Paris", "Rome"],
+            answer: 2
         },
         {
             id: 2,
-            questionText: "Which planet is known as the Red Planet?",
-            answerOptions: ["Earth", "Mars", "Jupiter", "Saturn"],
-            correctAnswer: 1
+            question: "Which planet is known as the Red Planet?",
+            options: ["Earth", "Mars", "Jupiter", "Saturn"],
+            answer: 1
         }, 
         {
             id: 3,
-            questionText: "What is the largest ocean on Earth?",
-            answerOptions: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
-            correctAnswer: 3
+            question: "What is the largest ocean on Earth?",
+            options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+            answer: 3
         },
         {
             id: 4,
-            questionText: "Who wrote 'Romeo and Juliet'?",
-            answerOptions: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
-            correctAnswer: 1
+            question: "Who wrote 'Romeo and Juliet'?",
+            options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
+            answer: 1
         },
         {
             id: 5,
-            questionText: "What is the chemical symbol for gold?",
-            answerOptions: ["Au", "Ag", "Fe", "Pb"],
-            correctAnswer: 0
+            question: "What is the chemical symbol for gold?",
+            options: ["Au", "Ag", "Fe", "Pb"],
+            answer: 0
         }
     ]
-    let [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    let [questionIndex, setQuestionIndex] = useState(0);
     let [score, setScore] = useState(0);
     let [quizFinished, setQuizFinished] = useState(false);
     return (
@@ -69,14 +69,14 @@ function ProjectWizzy() {
             <div>
                 {!quizFinished ? (
                     <div>
-                        <h2>{questionData[currentQuestionIndex].questionText}</h2>
-                        {questionData[currentQuestionIndex].answerOptions.map((option, index) => (
+                        <h2>{questionList[questionIndex].question}</h2>
+                        {questionList[questionIndex].options.map((option, index) => (
                             <button key={index} onClick={() => {
-                                if (index === questionData[currentQuestionIndex].correctAnswer) {
+                                if (index === questionList[questionIndex].answer) {
                                     setScore(score + 1);
                                 }
-                                if (currentQuestionIndex + 1 < questionData.length) {
-                                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                                if (questionIndex + 1 < questionList.length) {
+                                    setQuestionIndex(questionIndex + 1);
                                 } else {
                                     setQuizFinished(true);
                                 }
@@ -85,9 +85,9 @@ function ProjectWizzy() {
                     </div>
                 ) : (
                     <div>
-                        <h2>Your Score: {score} out of {questionData.length}</h2>
+                        <h2>Your Score: {score} out of {questionList.length}</h2>
                         <button onClick={() => {
-                            setCurrentQuestionIndex(0);
+                            setQuestionIndex(0);
                             setScore(0);
                             setQuizFinished(false);
                         }}>Restart Quiz</button>
